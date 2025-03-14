@@ -38,10 +38,10 @@ const WelcomeMessage: React.FC<WelcomeMessageProps> = ({ username, isReturningUs
           <Sparkles className="w-12 h-12 mx-auto animate-pulse" />
         </div>
         <h2 className="text-2xl font-bold text-white mb-2 neon-text">
-          {isReturningUser ? "Bon retour" : "Bienvenue"} {username} !
+          {isReturningUser ? "Bienvenue" : "Bienvenue"} {username} !
         </h2>
         <p className="text-indigo-300">
-          {isReturningUser ? "Nous sommes ravis de vous revoir." : "Nous sommes ravis de faire votre connaissance."}
+          {isReturningUser ? "Nous sommes ravis de vous voir." : "Nous sommes ravis de faire votre connaissance."}
         </p>
 
         {/* Petites étoiles décoratives */}
