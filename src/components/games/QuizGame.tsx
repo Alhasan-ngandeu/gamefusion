@@ -4,6 +4,7 @@ import type React from "react"
 import { useState } from "react"
 import { ArrowLeft, Trophy } from "lucide-react"
 import { allQuestions, type Question } from "./questions" // Importez les questions
+import StarryBackground from "../StarryBackground"
 
 const QuizGame: React.FC = () => {
   // Sélectionner 10 questions aléatoires
@@ -58,85 +59,88 @@ const QuizGame: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4">
-      <button onClick={goBack} className="mb-8 flex items-center gap-2 text-blue-600 hover:text-blue-800">
-        <ArrowLeft className="w-5 h-5" />
-        Retour à l'accueil
-      </button>
+    <>
+      <StarryBackground />
+      <div className="min-h-screen relative z-10 p-4">
+        <button onClick={goBack} className="mb-8 flex items-center gap-2 text-blue-400 hover:text-blue-300">
+          <ArrowLeft className="w-5 h-5" />
+          <span>Retour à l'accueil</span>
+        </button>
 
-      <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-4 sm:p-6">
-        {showScore ? (
-          <div className="text-center">
-            <Trophy className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-4">Quiz terminé !</h2>
-            <p className="text-xl mb-4">
-              Votre score : {score} sur {questions.length}
-            </p>
-            <p className="text-lg mb-6 text-green-600">Gains : {score * 50} FCFA</p>
-            <div className="flex flex-col sm:flex-row justify-center gap-3 w-full">
-              <button
-                onClick={goBack}
-                className="bg-gray-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors w-full"
-              >
-                Retour
-              </button>
-              <button
-                onClick={restartGame}
-                className="bg-blue-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors w-full"
-              >
-                Rejouer
-              </button>
-            </div>
-          </div>
-        ) : (
-          <>
-            <div className="mb-8">
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-sm text-gray-600">
-                  Question {currentQuestion + 1}/{questions.length}
-                </span>
-                <span className="text-sm text-gray-600">Score: {score}</span>
-              </div>
-              <h2 className="text-xl font-semibold mb-6">{questions[currentQuestion].question}</h2>
-              <div className="space-y-3">
-                {questions[currentQuestion].options.map((option, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleAnswerClick(index)}
-                    disabled={isAnswered}
-                    className={`w-full p-4 text-left rounded-lg transition-all ${
-                      isAnswered
-                        ? index === questions[currentQuestion].correctAnswer
-                          ? "bg-green-100 border-green-500"
-                          : index === selectedAnswer
-                            ? "bg-red-100 border-red-500"
-                            : "bg-gray-100"
-                        : "bg-white hover:bg-gray-50"
-                    } border ${selectedAnswer === index ? "border-blue-500" : "border-gray-200"}`}
-                  >
-                    {option}
-                  </button>
-                ))}
+        <div className="max-w-2xl mx-auto bg-gray-800 bg-opacity-70 rounded-xl shadow-lg p-4 sm:p-6 glass-card glow-effect">
+          {showScore ? (
+            <div className="text-center">
+              <Trophy className="w-16 h-16 text-yellow-400 mx-auto mb-4" />
+              <h2 className="text-2xl font-bold mb-4 text-white neon-text">Quiz terminé !</h2>
+              <p className="text-xl mb-4 text-white">
+                Votre score : {score} sur {questions.length}
+              </p>
+              <p className="text-lg mb-6 text-green-400 neon-text">Gains : {score * 50} FCFA</p>
+              <div className="flex flex-col sm:flex-row justify-center gap-3 w-full">
+                <button
+                  onClick={goBack}
+                  className="bg-gray-700 text-white px-4 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors w-full"
+                >
+                  Retour
+                </button>
+                <button
+                  onClick={restartGame}
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-3 rounded-lg font-semibold hover:opacity-90 transition-colors w-full gradient-button"
+                >
+                  Rejouer
+                </button>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row justify-center gap-3 w-full mt-8">
-              <button
-                onClick={goBack}
-                className="bg-gray-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors w-full"
-              >
-                Retour
-              </button>
-              <button
-                onClick={restartGame}
-                className="bg-blue-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors w-full"
-              >
-                Rejouer
-              </button>
-            </div>
-          </>
-        )}
+          ) : (
+            <>
+              <div className="mb-8">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-sm text-gray-300">
+                    Question {currentQuestion + 1}/{questions.length}
+                  </span>
+                  <span className="text-sm text-gray-300">Score: {score}</span>
+                </div>
+                <h2 className="text-xl font-semibold mb-6 text-white">{questions[currentQuestion].question}</h2>
+                <div className="space-y-3">
+                  {questions[currentQuestion].options.map((option, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleAnswerClick(index)}
+                      disabled={isAnswered}
+                      className={`w-full p-4 text-left rounded-lg transition-all ${
+                        isAnswered
+                          ? index === questions[currentQuestion].correctAnswer
+                            ? "bg-green-900 bg-opacity-30 border-green-500"
+                            : index === selectedAnswer
+                              ? "bg-red-900 bg-opacity-30 border-red-500"
+                              : "bg-gray-700 bg-opacity-50"
+                          : "bg-gray-800 bg-opacity-50 hover:bg-gray-700"
+                      } border ${selectedAnswer === index ? "border-blue-500" : "border-gray-600"} glass-card`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row justify-center gap-3 w-full mt-8">
+                <button
+                  onClick={goBack}
+                  className="bg-gray-700 text-white px-4 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors w-full"
+                >
+                  Retour
+                </button>
+                <button
+                  onClick={restartGame}
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-3 rounded-lg font-semibold hover:opacity-90 transition-colors w-full gradient-button"
+                >
+                  Rejouer
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

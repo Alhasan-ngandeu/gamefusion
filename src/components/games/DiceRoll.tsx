@@ -3,6 +3,7 @@
 import type React from "react"
 import { useState } from "react"
 import { ArrowLeft, Dice5 } from "lucide-react"
+import StarryBackground from "../StarryBackground"
 
 const DiceRoll: React.FC = () => {
   const [dice1, setDice1] = useState(1)
@@ -57,69 +58,74 @@ const DiceRoll: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4">
-      <button onClick={goBack} className="mb-8 flex items-center gap-2 text-blue-600 hover:text-blue-800">
-        <ArrowLeft className="w-5 h-5" />
-        Retour à l'accueil
-      </button>
+    <>
+      <StarryBackground />
+      <div className="min-h-screen relative z-10 p-4">
+        <button onClick={goBack} className="mb-8 flex items-center gap-2 text-blue-400 hover:text-blue-300">
+          <ArrowLeft className="w-5 h-5" />
+          <span className="text-blue-400 hover:text-blue-300">Retour à l'accueil</span>
+        </button>
 
-      <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg p-4 sm:p-6">
-        <div className="text-center mb-8">
-          <Dice5 className="w-12 h-12 text-blue-600 mx-auto mb-2" />
-          <h2 className="text-2xl font-bold">Lancer de Dés</h2>
-          <p className="text-gray-600">Lancez les dés et gagnez si la somme est 7 !</p>
-        </div>
-
-        <div className="flex justify-center gap-6 mb-8">
-          <div className="w-16 h-16 flex items-center justify-center bg-blue-100 rounded-lg text-3xl font-bold">
-            {dice1}
+        <div className="max-w-md mx-auto bg-gray-800 bg-opacity-70 rounded-xl shadow-lg p-4 sm:p-6 glass-card glow-effect">
+          <div className="text-center mb-8">
+            <Dice5 className="w-12 h-12 text-blue-400 mx-auto mb-2" />
+            <h2 className="text-2xl font-bold text-white neon-text">Lancer de Dés</h2>
+            <p className="text-gray-300">Lancez les dés et gagnez si la somme est 7 !</p>
           </div>
-          <div className="w-16 h-16 flex items-center justify-center bg-blue-100 rounded-lg text-3xl font-bold">
-            {dice2}
-          </div>
-        </div>
 
-        <div className="text-center">
-          <button
-            onClick={rollDice}
-            disabled={isRolling}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 mx-auto"
-          >
-            <Dice5 className="w-5 h-5" />
-            {isRolling ? "Lancement en cours..." : "Lancer les dés"}
-          </button>
-
-          {result !== null && (
-            <div className="mt-4">
-              <p className="text-xl font-bold">
-                Résultat : {dice1} + {dice2} = {result}
-              </p>
-              {win ? (
-                <p className="text-green-600 font-semibold mt-2">Félicitations ! Vous avez gagné 100 FCFA !</p>
-              ) : (
-                <p className="text-red-600 font-semibold mt-2">Dommage, essayez encore !</p>
-              )}
+          <div className="flex justify-center gap-6 mb-8">
+            <div className="w-16 h-16 flex items-center justify-center bg-gray-700 rounded-lg text-3xl font-bold text-white shadow-inner border border-gray-600">
+              {dice1}
             </div>
-          )}
+            <div className="w-16 h-16 flex items-center justify-center bg-gray-700 rounded-lg text-3xl font-bold text-white shadow-inner border border-gray-600">
+              {dice2}
+            </div>
+          </div>
 
-          {/* Boutons Retour et Rejouer */}
-          <div className="flex flex-col sm:flex-row justify-center gap-3 mt-4 w-full">
+          <div className="text-center">
             <button
-              onClick={goBack}
-              className="bg-gray-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors w-full"
+              onClick={rollDice}
+              disabled={isRolling}
+              className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 mx-auto gradient-button"
             >
-              Retour
+              <Dice5 className="w-5 h-5" />
+              {isRolling ? "Lancement en cours..." : "Lancer les dés"}
             </button>
-            <button
-              onClick={restartGame}
-              className="bg-blue-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors w-full"
-            >
-              Rejouer
-            </button>
+
+            {result !== null && (
+              <div className="mt-4">
+                <p className="text-xl font-bold text-white">
+                  Résultat : {dice1} + {dice2} = {result}
+                </p>
+                {win ? (
+                  <p className="text-green-400 font-semibold mt-2 neon-text">
+                    Félicitations ! Vous avez gagné 100 FCFA !
+                  </p>
+                ) : (
+                  <p className="text-red-400 font-semibold mt-2">Dommage, essayez encore !</p>
+                )}
+              </div>
+            )}
+
+            {/* Boutons Retour et Rejouer */}
+            <div className="flex flex-col sm:flex-row justify-center gap-3 mt-4 w-full">
+              <button
+                onClick={goBack}
+                className="bg-gray-700 text-white px-4 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors w-full"
+              >
+                Retour
+              </button>
+              <button
+                onClick={restartGame}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-3 rounded-lg font-semibold hover:opacity-90 transition-colors w-full gradient-button"
+              >
+                Rejouer
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

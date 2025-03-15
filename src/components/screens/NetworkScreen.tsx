@@ -25,6 +25,37 @@ const NetworkScreen: React.FC<NetworkScreenProps> = ({ balance, onBalanceUpdate 
     localStorage.setItem("visitedNetworks", JSON.stringify(visitedNetworks))
   }, [visitedNetworks])
 
+  // Fonction pour gérer le clic sur la section "Nos réseaux"
+  const handleSectionClick = () => {
+    // Activer le popunder publicitaire
+    const script = document.createElement("script")
+    script.type = "text/javascript"
+    script.src = "//pl26122125.effectiveratecpm.com/31/e9/97/31e99709deb27a0781d9b315ecac706a.js"
+    document.body.appendChild(script)
+  }
+
+  // Fonction pour gérer le clic sur un lien de réseau social
+  const handleNetworkClick = (id: number, reward: number, link: string, event: React.MouseEvent) => {
+    // Empêcher la propagation du clic pour éviter d'activer le popunder
+    event.stopPropagation()
+
+    // Vérifier si l'utilisateur a déjà visité ce réseau
+    if (!visitedNetworks[id]) {
+      // Mettre à jour le solde
+      const newBalance = balance + reward
+      onBalanceUpdate(newBalance)
+
+      // Marquer ce réseau comme visité
+      setVisitedNetworks((prev) => ({
+        ...prev,
+        [id]: true,
+      }))
+    }
+
+    // Ouvrir le lien dans un nouvel onglet
+    window.open(link, "_blank")
+  }
+
   const socialNetworks = [
     {
       id: 1,
@@ -85,27 +116,8 @@ const NetworkScreen: React.FC<NetworkScreenProps> = ({ balance, onBalanceUpdate 
     },
   ]
 
-  // Fonction pour gérer le clic sur un lien de réseau social
-  const handleNetworkClick = (id: number, reward: number, link: string) => {
-    // Vérifier si l'utilisateur a déjà visité ce réseau
-    if (!visitedNetworks[id]) {
-      // Mettre à jour le solde
-      const newBalance = balance + reward
-      onBalanceUpdate(newBalance)
-
-      // Marquer ce réseau comme visité
-      setVisitedNetworks((prev) => ({
-        ...prev,
-        [id]: true,
-      }))
-    }
-
-    // Ouvrir le lien dans un nouvel onglet
-    window.open(link, "_blank")
-  }
-
   return (
-    <div className="min-h-screen pb-24 relative z-10">
+    <div className="min-h-screen pb-24 relative z-10" onClick={handleSectionClick}>
       <div className="px-4 py-4 flex items-center justify-between">
         <h1 className="text-2xl font-bold text-white neon-text">Game Fusion</h1>
       </div>
@@ -153,7 +165,7 @@ const NetworkScreen: React.FC<NetworkScreenProps> = ({ balance, onBalanceUpdate 
                 <p className="text-gray-400 mb-4">{network.description}</p>
 
                 <button
-                  onClick={() => handleNetworkClick(network.id, network.reward, network.link)}
+                  onClick={(event) => handleNetworkClick(network.id, network.reward, network.link, event)}
                   className="inline-flex items-center justify-center w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity hover-arrow gradient-button"
                   disabled={visitedNetworks[network.id]}
                 >
@@ -174,4 +186,3 @@ const NetworkScreen: React.FC<NetworkScreenProps> = ({ balance, onBalanceUpdate 
 }
 
 export default NetworkScreen
-

@@ -70,6 +70,10 @@ const TasksScreen: React.FC<TasksScreenProps> = ({ balance, onBalanceUpdate }) =
       return
     }
 
+    // Ouvrir l'URL de la publicité dans un nouvel onglet
+    const adUrl = "https://www.effectiveratecpm.com/zac6n5ezy0?key=37f69ccc316bae2d772431a23971e5e3"
+    window.open(adUrl, "_blank")
+
     // Simuler le chargement et le visionnage d'une publicité
     Swal.fire({
       title: "Chargement de la publicité...",

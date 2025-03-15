@@ -1,26 +1,38 @@
 "use client"
 
 import type React from "react"
-
 import { useEffect, useState } from "react"
 import { Sparkles } from "lucide-react"
 
 interface WelcomeMessageProps {
   username: string
   isReturningUser: boolean
+  isOnPlaySection: boolean // Nouvelle prop pour vérifier si l'utilisateur est sur la section "Jouer"
 }
 
-const WelcomeMessage: React.FC<WelcomeMessageProps> = ({ username, isReturningUser }) => {
+const WelcomeMessage: React.FC<WelcomeMessageProps> = ({ username, isReturningUser, isOnPlaySection }) => {
   const [visible, setVisible] = useState(true)
 
   useEffect(() => {
-    // Animation de disparition progressive
-    const timer = setTimeout(() => {
-      setVisible(false)
-    }, 2500)
+    // Afficher le message uniquement si l'utilisateur est sur la section "Jouer"
+    if (isOnPlaySection) {
+      setVisible(true)
 
-    return () => clearTimeout(timer)
-  }, [])
+      // Animation de disparition progressive après 3 secondes
+      const timer = setTimeout(() => {
+        setVisible(false)
+      }, 3000)
+
+      return () => clearTimeout(timer)
+    } else {
+      setVisible(false) // Masquer le message si l'utilisateur n'est pas sur la section "Jouer"
+    }
+  }, [isOnPlaySection])
+
+  // Si l'utilisateur n'est pas sur la section "Jouer", ne rien afficher
+  if (!isOnPlaySection) {
+    return null
+  }
 
   return (
     <div
@@ -38,10 +50,12 @@ const WelcomeMessage: React.FC<WelcomeMessageProps> = ({ username, isReturningUs
           <Sparkles className="w-12 h-12 mx-auto animate-pulse" />
         </div>
         <h2 className="text-2xl font-bold text-white mb-2 neon-text">
-          {isReturningUser ? "Bienvenue" : "Bienvenue"} {username} !
+          {isReturningUser ? "Bon retour" : "Bienvenue"} {username} !
         </h2>
         <p className="text-indigo-300">
-          {isReturningUser ? "Nous sommes ravis de vous voir." : "Nous sommes ravis de faire votre connaissance."}
+          {isReturningUser
+            ? "Nous sommes ravis de vous revoir."
+            : "Nous sommes ravis de faire votre connaissance."}
         </p>
 
         {/* Petites étoiles décoratives */}
@@ -55,4 +69,3 @@ const WelcomeMessage: React.FC<WelcomeMessageProps> = ({ username, isReturningUs
 }
 
 export default WelcomeMessage
-
