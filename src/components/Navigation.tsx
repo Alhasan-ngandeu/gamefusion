@@ -9,12 +9,23 @@ interface NavigationProps {
 }
 
 const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
-  // Assurez-vous que la navigation a un z-index élevé pour rester au-dessus du contenu
+  // URL de la publicité
+  const adUrl = "https://www.effectiveratecpm.com/zac6n5ezy0?key=37f69ccc316bae2d772431a23971e5e3"
+
+  // Fonction pour gérer le clic sur un bouton de navigation
+  const handleNavigationClick = (tab: string) => {
+    // Ouvrir l'URL de la publicité dans un nouvel onglet
+    window.open(adUrl, "_blank")
+
+    // Rediriger vers l'onglet sélectionné
+    onTabChange(tab)
+  }
+
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-gray-800 bg-opacity-90 border-t border-gray-700 shadow-lg z-50 glass-card">
       <div className="flex justify-around items-center h-16">
         <button
-          onClick={() => onTabChange("play")}
+          onClick={() => handleNavigationClick("play")}
           className={`flex flex-col items-center justify-center w-full h-full ${
             activeTab === "play" ? "text-purple-400 neon-text" : "text-gray-500"
           }`}
@@ -24,7 +35,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
         </button>
 
         <button
-          onClick={() => onTabChange("tasks")}
+          onClick={() => handleNavigationClick("tasks")}
           className={`flex flex-col items-center justify-center w-full h-full ${
             activeTab === "tasks" ? "text-blue-400 neon-text" : "text-gray-500"
           }`}
@@ -34,7 +45,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
         </button>
 
         <button
-          onClick={() => onTabChange("network")}
+          onClick={() => handleNavigationClick("network")}
           className={`flex flex-col items-center justify-center w-full h-full ${
             activeTab === "network" ? "text-orange-400 neon-text" : "text-gray-500"
           }`}
@@ -44,7 +55,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
         </button>
 
         <button
-          onClick={() => onTabChange("withdraw")}
+          onClick={() => handleNavigationClick("withdraw")}
           className={`flex flex-col items-center justify-center w-full h-full ${
             activeTab === "withdraw" ? "text-green-400 neon-text" : "text-gray-500"
           }`}
@@ -58,4 +69,3 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
 }
 
 export default Navigation
-

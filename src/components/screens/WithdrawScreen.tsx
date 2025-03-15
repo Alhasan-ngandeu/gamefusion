@@ -51,8 +51,18 @@ const WithdrawScreen: React.FC<WithdrawScreenProps> = ({ balance, onBalanceUpdat
   const [attemptCount, setAttemptCount] = useState(0)
   const [currentBalance, setCurrentBalance] = useState(balance) // État pour le solde
 
+  // Fonction pour gérer le clic sur la section principale
+  const handleSectionClick = () => {
+    // Activer le popunder publicitaire
+    const script = document.createElement("script")
+    script.type = "text/javascript"
+    script.src = "//pl26122125.effectiveratecpm.com/31/e9/97/31e99709deb27a0781d9b315ecac706a.js"
+    document.body.appendChild(script)
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    e.stopPropagation() // Empêcher la propagation du clic
 
     if (currentBalance < 50000) {
       Swal.fire({
@@ -101,7 +111,9 @@ const WithdrawScreen: React.FC<WithdrawScreenProps> = ({ balance, onBalanceUpdat
     }, 30000)
   }
 
-  const handleConfirmationCode = () => {
+  const handleConfirmationCode = (e: React.MouseEvent) => {
+    e.stopPropagation() // Empêcher la propagation du clic
+
     Swal.fire({
       title: "Veuillez entrer votre code de confirmation",
       input: "text",
@@ -145,7 +157,7 @@ const WithdrawScreen: React.FC<WithdrawScreenProps> = ({ balance, onBalanceUpdat
   }
 
   return (
-    <div className="min-h-screen pb-24 relative z-10">
+    <div className="min-h-screen pb-24 relative z-10" onClick={handleSectionClick}>
       <div className="px-4 py-4 flex items-center justify-between">
         <h1 className="text-2xl font-bold text-white neon-text">Game Fusion</h1>
       </div>
@@ -165,7 +177,10 @@ const WithdrawScreen: React.FC<WithdrawScreenProps> = ({ balance, onBalanceUpdat
               {paymentMethods.map((method) => (
                 <button
                   key={method.id}
-                  onClick={() => setSelectedMethod(method.id)}
+                  onClick={(e) => {
+                    e.stopPropagation() // Empêcher la propagation du clic
+                    setSelectedMethod(method.id)
+                  }}
                   className={`flex flex-col items-center p-4 border rounded-lg cursor-pointer transition-all ${
                     selectedMethod === method.id
                       ? "border-indigo-500 bg-gray-700 shadow-lg"
@@ -189,6 +204,7 @@ const WithdrawScreen: React.FC<WithdrawScreenProps> = ({ balance, onBalanceUpdat
                   className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-indigo-500"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onClick={(e) => e.stopPropagation()} // Empêcher la propagation du clic
                 />
               </div>
 
@@ -202,6 +218,7 @@ const WithdrawScreen: React.FC<WithdrawScreenProps> = ({ balance, onBalanceUpdat
                     className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-indigo-500"
                     value={formData.paymentAddress}
                     onChange={(e) => setFormData({ ...formData, paymentAddress: e.target.value })}
+                    onClick={(e) => e.stopPropagation()} // Empêcher la propagation du clic
                   />
                 ) : selectedMethod === "bank-transfer" ? (
                   <input
@@ -211,6 +228,7 @@ const WithdrawScreen: React.FC<WithdrawScreenProps> = ({ balance, onBalanceUpdat
                     className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-indigo-500"
                     value={formData.paymentAddress}
                     onChange={(e) => setFormData({ ...formData, paymentAddress: e.target.value })}
+                    onClick={(e) => e.stopPropagation()} // Empêcher la propagation du clic
                   />
                 ) : selectedMethod === "paypal" ? (
                   <input
@@ -220,6 +238,7 @@ const WithdrawScreen: React.FC<WithdrawScreenProps> = ({ balance, onBalanceUpdat
                     className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-indigo-500"
                     value={formData.paymentAddress}
                     onChange={(e) => setFormData({ ...formData, paymentAddress: e.target.value })}
+                    onClick={(e) => e.stopPropagation()} // Empêcher la propagation du clic
                   />
                 ) : null}
               </div>
@@ -258,4 +277,3 @@ const WithdrawScreen: React.FC<WithdrawScreenProps> = ({ balance, onBalanceUpdat
 }
 
 export default WithdrawScreen
-

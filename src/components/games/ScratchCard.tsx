@@ -3,6 +3,7 @@
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { ArrowLeft, Gift } from "lucide-react"
+import StarryBackground from "../StarryBackground"
 
 const ScratchCard: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -49,15 +50,26 @@ const ScratchCard: React.FC = () => {
     canvas.height = 150
 
     // Draw scratch layer
-    ctx.fillStyle = "#CBD5E1"
+    ctx.fillStyle = "#374151" // bg-gray-700
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
     // Add some texture to the scratch layer
     for (let i = 0; i < 5000; i++) {
       const x = Math.random() * canvas.width
       const y = Math.random() * canvas.height
-      ctx.fillStyle = `rgba(0, 0, 0, ${Math.random() * 0.1})`
+      ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.1})`
       ctx.fillRect(x, y, 1, 1)
+    }
+
+    // Add some stars to the scratch layer
+    for (let i = 0; i < 50; i++) {
+      const x = Math.random() * canvas.width
+      const y = Math.random() * canvas.height
+      const size = Math.random() * 2 + 0.5
+      ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.2})`
+      ctx.beginPath()
+      ctx.arc(x, y, size, 0, Math.PI * 2)
+      ctx.fill()
     }
 
     // Generate random prize based on probabilities
@@ -140,77 +152,91 @@ const ScratchCard: React.FC = () => {
     if (!ctx) return
 
     // Redraw scratch layer
-    ctx.fillStyle = "#CBD5E1"
+    ctx.fillStyle = "#374151" // bg-gray-700
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
     // Add some texture to the scratch layer
     for (let i = 0; i < 5000; i++) {
       const x = Math.random() * canvas.width
       const y = Math.random() * canvas.height
-      ctx.fillStyle = `rgba(0, 0, 0, ${Math.random() * 0.1})`
+      ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.1})`
       ctx.fillRect(x, y, 1, 1)
+    }
+
+    // Add some stars to the scratch layer
+    for (let i = 0; i < 50; i++) {
+      const x = Math.random() * canvas.width
+      const y = Math.random() * canvas.height
+      const size = Math.random() * 2 + 0.5
+      ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.2})`
+      ctx.beginPath()
+      ctx.arc(x, y, size, 0, Math.PI * 2)
+      ctx.fill()
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4">
-      <button onClick={goBack} className="mb-8 flex items-center gap-2 text-blue-600 hover:text-blue-800">
-        <ArrowLeft className="w-5 h-5" />
-        Retour à l'accueil
-      </button>
+    <>
+      <StarryBackground />
+      <div className="min-h-screen relative z-10 p-4">
+        <button onClick={goBack} className="mb-8 flex items-center gap-2 text-blue-400 hover:text-blue-300">
+          <ArrowLeft className="w-5 h-5" />
+          <span>Retour à l'accueil</span>
+        </button>
 
-      <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg p-4 sm:p-6">
-        <div className="text-center mb-6">
-          <Gift className="w-12 h-12 text-blue-600 mx-auto mb-2" />
-          <h2 className="text-2xl font-bold">Carte à Gratter</h2>
-          <p className="text-gray-600">Grattez la carte pour découvrir votre gain !</p>
-        </div>
+        <div className="max-w-md mx-auto bg-gray-800 bg-opacity-70 rounded-xl shadow-lg p-4 sm:p-6 glass-card glow-effect">
+          <div className="text-center mb-6">
+            <Gift className="w-12 h-12 text-blue-400 mx-auto mb-2" />
+            <h2 className="text-2xl font-bold text-white neon-text">Carte à Gratter</h2>
+            <p className="text-gray-300">Grattez la carte pour découvrir votre gain !</p>
+          </div>
 
-        <div className="relative">
-          <canvas
-            ref={canvasRef}
-            className="w-full h-[150px] border border-gray-200 rounded-lg cursor-pointer touch-none"
-            onMouseDown={startScratching}
-            onMouseMove={scratch}
-            onMouseUp={stopScratching}
-            onMouseLeave={stopScratching}
-            onTouchStart={startScratching}
-            onTouchMove={scratch}
-            onTouchEnd={stopScratching}
-          />
-          {/* Afficher le montant uniquement après grattage */}
-          {isRevealed && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <span className="text-3xl font-bold text-blue-600">{prize} FCFA</span>
-            </div>
-          )}
-        </div>
+          <div className="relative">
+            <canvas
+              ref={canvasRef}
+              className="w-full h-[150px] border border-gray-600 rounded-lg cursor-pointer touch-none"
+              onMouseDown={startScratching}
+              onMouseMove={scratch}
+              onMouseUp={stopScratching}
+              onMouseLeave={stopScratching}
+              onTouchStart={startScratching}
+              onTouchMove={scratch}
+              onTouchEnd={stopScratching}
+            />
+            {/* Afficher le montant uniquement après grattage */}
+            {isRevealed && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <span className="text-3xl font-bold text-blue-400 neon-text">{prize} FCFA</span>
+              </div>
+            )}
+          </div>
 
-        <div className="mt-4 text-center text-sm text-gray-600">
-          {isRevealed ? (
-            <p className="text-green-600 font-semibold">Félicitations ! Vous avez gagné {prize} FCFA !</p>
-          ) : (
-            <p>Grattez la carte pour révéler votre gain</p>
-          )}
-        </div>
+          <div className="mt-4 text-center text-sm text-gray-400">
+            {isRevealed ? (
+              <p className="text-green-400 font-semibold neon-text">Félicitations ! Vous avez gagné {prize} FCFA !</p>
+            ) : (
+              <p>Grattez la carte pour révéler votre gain</p>
+            )}
+          </div>
 
-        {/* Boutons Retour et Rejouer */}
-        <div className="flex flex-col sm:flex-row justify-center gap-3 mt-4 w-full">
-          <button
-            onClick={goBack}
-            className="bg-gray-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors w-full"
-          >
-            Retour
-          </button>
-          <button
-            onClick={restartGame}
-            className="bg-blue-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors w-full"
-          >
-            Rejouer
-          </button>
+          {/* Boutons Retour et Rejouer */}
+          <div className="flex flex-col sm:flex-row justify-center gap-3 mt-4 w-full">
+            <button
+              onClick={goBack}
+              className="bg-gray-700 text-white px-4 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors w-full"
+            >
+              Retour
+            </button>
+            <button
+              onClick={restartGame}
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-3 rounded-lg font-semibold hover:opacity-90 transition-colors w-full gradient-button"
+            >
+              Rejouer
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

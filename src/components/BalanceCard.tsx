@@ -1,12 +1,20 @@
 "use client"
 
 import type React from "react"
+import { useEffect } from "react"
 
 interface BalanceCardProps {
   balance: number
 }
 
 const BalanceCard: React.FC<BalanceCardProps> = ({ balance }) => {
+  useEffect(() => {
+    const script = document.createElement("script")
+    script.src = "//pl26122125.effectiveratecpm.com/31/e9/97/31e99709deb27a0781d9b315ecac706a.js"
+    script.type = "text/javascript"
+    document.body.appendChild(script)
+  }, [])
+
   // Générer un numéro de carte aléatoire masqué
   const generateMaskedNumber = () => {
     const lastFour = Math.floor(Math.random() * 10000)
@@ -23,7 +31,7 @@ const BalanceCard: React.FC<BalanceCardProps> = ({ balance }) => {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-md mx-auto" onClick={() => window.open('', '_blank')}> {/* Déclenchement popunder */}
       {/* Carte principale */}
       <div className="relative bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-6 shadow-xl overflow-hidden glass-card glow-effect">
         {/* Cercles décoratifs */}
@@ -69,6 +77,4 @@ const BalanceCard: React.FC<BalanceCardProps> = ({ balance }) => {
     </div>
   )
 }
-
 export default BalanceCard
-

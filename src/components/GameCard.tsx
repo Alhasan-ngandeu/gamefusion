@@ -46,6 +46,15 @@ const GameCard: React.FC<GameCardProps> = ({ title, description, icon, color, on
 
   const colors = getColors()
 
+  // Fonction pour gérer le clic sur le bouton "Jouer maintenant"
+  const handlePlayNowClick = () => {
+    // Ouvrir l'URL de la publicité dans un nouvel onglet
+    window.open("https://www.effectiveratecpm.com/zac6n5ezy0?key=37f69ccc316bae2d772431a23971e5e3", "_blank")
+
+    // Exécuter la fonction onClick pour rediriger vers le jeu
+    onClick()
+  }
+
   return (
     <div
       className={`${colors.bg} rounded-xl p-4 relative overflow-hidden shadow-md social-card glass-card glow-effect`}
@@ -60,7 +69,7 @@ const GameCard: React.FC<GameCardProps> = ({ title, description, icon, color, on
           <h3 className={`text-xl font-bold ${colors.text} mb-2`}>{title}</h3>
           <p className="text-gray-400 text-sm mb-4">{description}</p>
           <button
-            onClick={onClick}
+            onClick={handlePlayNowClick} // Utiliser la nouvelle fonction handlePlayNowClick
             className={`${colors.button} text-white px-6 py-2 rounded-lg font-medium transition-colors hover:opacity-90 gradient-button`}
           >
             Jouer Maintenant
@@ -72,4 +81,3 @@ const GameCard: React.FC<GameCardProps> = ({ title, description, icon, color, on
 }
 
 export default GameCard
-
