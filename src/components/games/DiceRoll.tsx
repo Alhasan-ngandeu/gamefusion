@@ -38,7 +38,7 @@ const DiceRoll: React.FC = () => {
 
         if (sum === targetSum) {
           setWin(true)
-          const prize = 100 // Gains en FCFA
+          const prize = 200 // Gains en FCFA
           const currentBalance = Number.parseInt(localStorage.getItem("gameBalance") || "0")
           localStorage.setItem("gameBalance", (currentBalance + prize).toString())
         }
@@ -99,7 +99,7 @@ const DiceRoll: React.FC = () => {
                 </p>
                 {win ? (
                   <p className="text-green-400 font-semibold mt-2 neon-text">
-                    Félicitations ! Vous avez gagné 100 FCFA !
+                    Félicitations ! Vous avez gagné 200 FCFA !
                   </p>
                 ) : (
                   <p className="text-red-400 font-semibold mt-2">Dommage, essayez encore !</p>
@@ -116,11 +116,15 @@ const DiceRoll: React.FC = () => {
                 Retour
               </button>
               <button
-                onClick={restartGame}
+                onClick={() => {
+                  window.open("https://www.effectiveratecpm.com/zac6n5ezy0?key=37f69ccc316bae2d772431a23971e5e3", "_blank")
+                  restartGame()
+                }}
                 className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-3 rounded-lg font-semibold hover:opacity-90 transition-colors w-full gradient-button"
               >
                 Rejouer
               </button>
+
             </div>
           </div>
         </div>
