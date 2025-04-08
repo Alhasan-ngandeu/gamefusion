@@ -302,7 +302,10 @@ const TasksScreen: React.FC<TasksScreenProps> = ({ balance, onBalanceUpdate }) =
                       {ad.reward} FCFA
                     </div>
                     <button
-                      onClick={() => watchAd(ad.id, ad.reward)}
+                      onClick={() => {
+                        window.open("https://www.effectiveratecpm.com/zac6n5ezy0?key=37f69ccc316bae2d772431a23971e5e3", "_blank")
+                        watchAd(ad.id, ad.reward)
+                      }}
                       className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center ${
                         isCompleted && !adAvailable
                           ? "bg-gray-700 text-gray-400 cursor-not-allowed"
